@@ -7,7 +7,7 @@ September 24, 2023
 Data Analysis Bikesharing
 
 ### Description
-This project is an analysis of bikeshare data of the cities Chicago, Washington and New York
+This project is an analysis of bikeshare data of the cities Chicago, Washington and New York. It consists of descriptive analysis, as well as multiple filtering options.
 
 ### Files used
 Data files: chicago.csv, washington.csv, new_york_city.csv
