@@ -108,7 +108,7 @@ def load_data(city, month, day):
     df['day_of_week'] = df['Start Time'].dt.day_name()
     df['hour'] = df['Start Time'].dt.hour
 
-    # Filter by month if applicable
+    # Filter by month if applicable, skipped if user selected all
     if month != 'all':
         # Use the index of the months list to get the corresponding int
         months = ['january', 'february', 'march', 'april', 'may', 'june']
