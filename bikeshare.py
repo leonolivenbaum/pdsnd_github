@@ -92,10 +92,14 @@ def load_data(city, month, day):
     # return filtered dataframe
     return df
 
+def get_most_popular_item(series):
+    """Helper function to get most popular item"""
+    most_popular = series.mode()[0]
+    count = series.value_counts().iloc[0]
+    return most_popular, count
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
-
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
@@ -103,50 +107,40 @@ def time_stats(df):
     month_names = ['January', 'February', 'March', 'April', 'May', 'June']
 
     # display the most common month
-    popular_month = df['month'].mode()[0]
-    popular_month_name = month_names[popular_month - 1]
-    popular_month_count = df['month'].value_counts().iloc[0]
-    print(f"The most popular month is {popular_month_name} with {popular_month_count} occurrences!")
+    popular_month, popular_month_count = get_most_popular_item(df['month'])
+    print(f"The most popular month is {month_names[popular_month - 1]} with {popular_month_count} occurrences!")
 
     # display the most common day of week
-    popular_day = df['day_of_week'].mode()[0]
-    popular_day_count = df['day_of_week'].value_counts().iloc[0]
+    popular_day, popular_day_count = get_most_popular_item(df['day_of_week'])
     print(f"The most popular day is {popular_day} with {popular_day_count} occurrences!")
 
     # display the most common start hour
-    popular_hour = df['hour'].mode()[0]
-    popular_hour_count = df['hour'].value_counts().iloc[0]
+    popular_hour, popular_hour_count = get_most_popular_item(df['hour'])
     print(f"The most popular starting hour is {popular_hour} with {popular_hour_count} occurrences!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
-
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
     # display most commonly used start station
-    popular_station_start = df['Start Station'].mode()[0]
-    popular_station_start_count = df['Start Station'].value_counts().iloc[0]
+    popular_station_start, popular_station_start_count = get_most_popular_item(df['Start Station'])
     print(f"The most popular start station is {popular_station_start} with {popular_station_start_count} occurrences!")
 
     # display most commonly used end station
-    popular_station_end = df['End Station'].mode()[0]
-    popular_station_end_count = df['End Station'].value_counts().iloc[0]
+    popular_station_end, popular_station_end_count = get_most_popular_item(df['End Station'])
     print(f"The most popular end station is {popular_station_end} with {popular_station_end_count} occurrences!")
 
     # display most frequent combination of start station and end station trip
     df["Combination_Stations"] = df['Start Station'] + ' to ' + df['End Station']
-    popular_station_combo = df['Combination_Stations'].mode()[0]
-    popular_station_combo_count = df['Combination_Stations'].value_counts().iloc[0]
+    popular_station_combo, popular_station_combo_count = get_most_popular_item(df['Combination_Stations'])
     print(f"The most popular station combination is {popular_station_combo} with {popular_station_combo_count} occurrences!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
