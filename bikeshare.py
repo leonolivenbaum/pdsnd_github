@@ -20,64 +20,31 @@ def get_filters():
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     time.sleep(1)
-    print("Do you want to explore data for Chicago, New York City or Washington?")
 
-    # while loop that secures correct user input
-    while True:
+    city = input("Choose a city to explore (Chicago, New York City, Washington): ").lower()
+    while city not in ["chicago", "new york city", "washington"]:
+        print("Invalid input. Please select a valid city.")
         city = input("> ").lower()
-        if city not in ["chicago", "new york city", "washington"]:
-            print("Error! Please write the city name exactly as given.")
-            continue
-        else:
-            break
 
-    # gives user feedback of their choice
-    print()
-    print(f"You chose {city.capitalize()}!")
-    print()
+    print(f"\nYou've selected {city.title()}.\n")
 
     # get user input for month (all, january, february, ... , june)
     time.sleep(1)
-    print("What month do you want to explore? Please choose a month in the timeframe from January to June.")
-    print("If you don't want to filter by month type 'all'.")
-
-    # while loop that secures correct user input
-    while True:
+    month = input("Choose a month (January to June) or 'all' for no filter: ").lower()
+    while month not in ["all", "january", "february", "march", "april", "may", "june"]:
+        print("Invalid input. Please select a valid month.")
         month = input("> ").lower()
-        if month not in ["all", "january", "february", "march", "april", "may", "june"]:
-            print("Error! Please write the month correctly!")
-            continue
-        else:
-            break
-    print()
 
-    # gives user feedback of their choice
-    if month == "All":
-        print("You selected all months.")
-    else:
-        print(f"You chose {month.capitalize()}!")
-    print()
+    print(f"\nYou've selected {month.title()}.\n")
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     time.sleep(1)
-    print("What day of the week do you want to explore? Type 'Monday', 'Tuesday' (...) 'Sunday'.")
-    print("If you don't want to filter by day type 'all'.")
-
-    # while loop that secures correct user input
-    while True:
+    day = input("Choose a day of the week or 'all' for no filter: ").lower()
+    while day not in ["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
+        print("Invalid input. Please select a valid day.")
         day = input("> ").lower()
-        if day not in ["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
-            print("Error! Please write a correct day!")
-            continue
-        else:
-            break
-    print()
 
-    # gives user feedback of their choice
-    if day == "All":
-        print("You selected all days.")
-    else:
-        print(f"You chose {day.capitalize()}!")
+    print(f"\nYou've selected {day.title()}.\n")
     time.sleep(2)
     print('-'*40)
 
