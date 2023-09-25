@@ -20,64 +20,31 @@ def get_filters():
 
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
     time.sleep(1)
-    print("Do you want to explore data for Chicago, New York City or Washington?")
 
-    # while loop that secures correct user input
-    while True:
+    city = input("Choose a city to explore (Chicago, New York City, Washington): ").lower()
+    while city not in ["chicago", "new york city", "washington"]:
+        print("Invalid input. Please select a valid city.")
         city = input("> ").lower()
-        if city not in ["chicago", "new york city", "washington"]:
-            print("Error! Please write the city name exactly as given.")
-            continue
-        else:
-            break
 
-    # gives user feedback of their choice
-    print()
-    print(f"You chose {city.capitalize()}!")
-    print()
+    print(f"\nYou've selected {city.title()}.\n")
 
     # get user input for month (all, january, february, ... , june)
     time.sleep(1)
-    print("What month do you want to explore? Please choose a month in the timeframe from January to June.")
-    print("If you don't want to filter by month type 'all'.")
-
-    # while loop that secures correct user input
-    while True:
+    month = input("Choose a month (January to June) or 'all' for no filter: ").lower()
+    while month not in ["all", "january", "february", "march", "april", "may", "june"]:
+        print("Invalid input. Please select a valid month.")
         month = input("> ").lower()
-        if month not in ["all", "january", "february", "march", "april", "may", "june"]:
-            print("Error! Please write the month correctly!")
-            continue
-        else:
-            break
-    print()
 
-    # gives user feedback of their choice
-    if month == "All":
-        print("You selected all months.")
-    else:
-        print(f"You chose {month.capitalize()}!")
-    print()
+    print(f"\nYou've selected {month.title()}.\n")
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     time.sleep(1)
-    print("What day of the week do you want to explore? Type 'Monday', 'Tuesday' (...) 'Sunday'.")
-    print("If you don't want to filter by day type 'all'.")
-
-    # while loop that secures correct user input
-    while True:
+    day = input("Choose a day of the week or 'all' for no filter: ").lower()
+    while day not in ["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
+        print("Invalid input. Please select a valid day.")
         day = input("> ").lower()
-        if day not in ["all", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]:
-            print("Error! Please write a correct day!")
-            continue
-        else:
-            break
-    print()
 
-    # gives user feedback of their choice
-    if day == "All":
-        print("You selected all days.")
-    else:
-        print(f"You chose {day.capitalize()}!")
+    print(f"\nYou've selected {day.title()}.\n")
     time.sleep(2)
     print('-'*40)
 
@@ -125,10 +92,14 @@ def load_data(city, month, day):
     # return filtered dataframe
     return df
 
+def get_most_popular_item(series):
+    """Helper function to get most popular item"""
+    most_popular = series.mode()[0]
+    count = series.value_counts().iloc[0]
+    return most_popular, count
 
 def time_stats(df):
     """Displays statistics on the most frequent times of travel."""
-
     print('\nCalculating The Most Frequent Times of Travel...\n')
     start_time = time.time()
 
@@ -136,50 +107,40 @@ def time_stats(df):
     month_names = ['January', 'February', 'March', 'April', 'May', 'June']
 
     # display the most common month
-    popular_month = df['month'].mode()[0]
-    popular_month_name = month_names[popular_month - 1]
-    popular_month_count = df['month'].value_counts().iloc[0]
-    print(f"The most popular month is {popular_month_name} with {popular_month_count} occurrences!")
+    popular_month, popular_month_count = get_most_popular_item(df['month'])
+    print(f"The most popular month is {month_names[popular_month - 1]} with {popular_month_count} occurrences!")
 
     # display the most common day of week
-    popular_day = df['day_of_week'].mode()[0]
-    popular_day_count = df['day_of_week'].value_counts().iloc[0]
+    popular_day, popular_day_count = get_most_popular_item(df['day_of_week'])
     print(f"The most popular day is {popular_day} with {popular_day_count} occurrences!")
 
     # display the most common start hour
-    popular_hour = df['hour'].mode()[0]
-    popular_hour_count = df['hour'].value_counts().iloc[0]
+    popular_hour, popular_hour_count = get_most_popular_item(df['hour'])
     print(f"The most popular starting hour is {popular_hour} with {popular_hour_count} occurrences!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
 
-
 def station_stats(df):
     """Displays statistics on the most popular stations and trip."""
-
     print('\nCalculating The Most Popular Stations and Trip...\n')
     start_time = time.time()
 
     # display most commonly used start station
-    popular_station_start = df['Start Station'].mode()[0]
-    popular_station_start_count = df['Start Station'].value_counts().iloc[0]
+    popular_station_start, popular_station_start_count = get_most_popular_item(df['Start Station'])
     print(f"The most popular start station is {popular_station_start} with {popular_station_start_count} occurrences!")
 
     # display most commonly used end station
-    popular_station_end = df['End Station'].mode()[0]
-    popular_station_end_count = df['End Station'].value_counts().iloc[0]
+    popular_station_end, popular_station_end_count = get_most_popular_item(df['End Station'])
     print(f"The most popular end station is {popular_station_end} with {popular_station_end_count} occurrences!")
 
     # display most frequent combination of start station and end station trip
     df["Combination_Stations"] = df['Start Station'] + ' to ' + df['End Station']
-    popular_station_combo = df['Combination_Stations'].mode()[0]
-    popular_station_combo_count = df['Combination_Stations'].value_counts().iloc[0]
+    popular_station_combo, popular_station_combo_count = get_most_popular_item(df['Combination_Stations'])
     print(f"The most popular station combination is {popular_station_combo} with {popular_station_combo_count} occurrences!")
 
     print("\nThis took %s seconds." % (time.time() - start_time))
     print('-'*40)
-
 
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
